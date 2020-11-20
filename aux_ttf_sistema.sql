@@ -21,10 +21,13 @@ $$
                                                               sistema_id                      sistema,
                                                               ot
                                                        from disponibilidad_mantenimiento
-                                                       where sistema_id = h
+                                                       where tipo_matenimiento not in
+                                                             ('Pendiente', 'Informado', 'Logistico', 'Siniestro', 'En evacuación')
+                                                         and sistema_id = h
                                                          and activo_id = l
                                                        order by momento_entrada ;
     begin
+        execute 'delete from aux_sistema_ttf';
         for h in cursor_activos
             loop
                 activo := null;
